@@ -21,6 +21,7 @@ It will copy the sql script generated on previous step to a specfic directory (D
 
 DockerFile will use this script to create the database image
 
+script file
 
 # The sql server linux Dockerfile
 
@@ -54,6 +55,7 @@ List all images
 docker images workshop/database-image
 
 
+dockerimages-db
 
 We have two addtionnal images : microsoft/mssql-server-linux and database-image
 
@@ -64,11 +66,13 @@ Run the following command to create a database container (database-container) ba
 docker run  --name database-container -e "SA_PASSWORD=PassW0rd"  -p 1433:1433 -d workshop/database-image:1.0.0
 
 
+runcontainerdb
 
 list running containers
 
 docker ps -a
 
+listcontainer-db
 
 We have a new container based on database-image
 
@@ -76,6 +80,7 @@ Run the following command to attach shell on database-container
 
 docker exec -it database-container "bash"
 
+bashon sql
 
 Run the following command to connect to sql server instance of the running container
 
@@ -262,3 +267,4 @@ go
 1line
 
 source code is available here Dockerization
+
