@@ -84,7 +84,7 @@ bashon sql
 
 Run the following command to connect to sql server instance of the running container
 
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Passw0rd"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "MyC0m9l&xP@ssw0rd"
 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "yourStrong(!)Password"
 
 Run the following command to list all databases,
