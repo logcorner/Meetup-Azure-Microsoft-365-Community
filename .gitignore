@@ -2,14 +2,11 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/slnx.sqlite
+/.vs/*
 *.sqlite
 /.vs
-/workshop.TodoList/src/TodoList/.vs/TodoList
-/workshop.TodoList/src/TodoList/TodoList.WebApi/bin/Debug/net6.0
-/workshop.TodoList/src/TodoList/TodoList.WebApi/obj/Debug/net6.0
-/workshop.TodoList/src/TodoList/TodoList.WebApi/obj
-/.vs/Meetup-Azure-Microsoft-365-Community/v17
-/.vs
-/workshop.TodoList/src/TodoList.WebApi/bin/Debug/net6.0
-/workshop.TodoList/src/TodoList.WebApi/obj
+bin
+obj
+/workshop.TodoList/src/.vs/workshop.TodoList
+*.jfm
+/workshop.TodoList/src/TodoList.Database/TodoList.Database.dbmdl
