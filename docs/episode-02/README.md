@@ -48,7 +48,7 @@ RUN (/opt/mssql/bin/sqlservr --accept-eula & ) | grep -q "SQL Server is now read
 
 Locate the directory where the SQL Server Dockerfile is located and run the following command to create database-image with SA_PASSWORD
 
-docker build --build-arg SA_PASSWORD='PassW0rd' -t workshop/database-image:1.0.0 .
+docker build --build-arg SA_PASSWORD='MyC0m9l&xP@ssw0rd' -t workshop/database-image:1.0.0 .
 
 List all images
 
@@ -63,7 +63,7 @@ RUN CONTAINER
 Run the following command to create a database container (database-container) based on database-image, mapped on port 1433 inside and outside the container
 
 
-docker run  --name database-container -e "SA_PASSWORD=PassW0rd"  -p 1433:1433 -d workshop/database-image:1.0.0
+docker run  --name database-container -e "SA_PASSWORD=MyC0m9l&xP@ssw0rd"  -p 1433:1433 -d workshop/database-image:1.0.0
 
 
 runcontainerdb
@@ -85,7 +85,7 @@ bashon sql
 Run the following command to connect to sql server instance of the running container
 
 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "MyC0m9l&xP@ssw0rd"
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "yourStrong(!)Password"
+
 
 Run the following command to list all databases,
 
@@ -93,17 +93,16 @@ select name from sys.databases
 
 go
 
-Listoddatabases
 
 we can see that the database TodoList.Database  is created via the script on Dockerfile
 
-Run the following command  to select  [dbo].[Speech]  table on that database
+Run the following command  to select  [dbo].[Todo]  table on that database
 
 use [TodoList.Database]
 
 go
 
-select * from [dbo].[Speech]
+select * from [dbo].[Todo]
 go
 
 select table inside container
@@ -121,6 +120,31 @@ The following Dockerfile will be generated
 
 Dockerfile
 
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["TodoList.WebApi/TodoList.WebApi.csproj", "TodoList.WebApi/"]
+COPY ["TodoList.Domain/TodoList.Domain.csproj", "TodoList.Domain/"]
+COPY ["TodoList.Application/TodoList.Application.csproj", "TodoList.Application/"]
+COPY ["TodoList.Infrastructure/TodoList.Infrastructure.csproj", "TodoList.Infrastructure/"]
+COPY ["TodoList.SharedKernel.Repository/TodoList.SharedKernel.Repository.csproj", "TodoList.SharedKernel.Repository/"]
+RUN dotnet restore "TodoList.WebApi/TodoList.WebApi.csproj"
+COPY . .
+WORKDIR "/src/TodoList.WebApi"
+RUN dotnet build "TodoList.WebApi.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "TodoList.WebApi.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "TodoList.WebApi.dll"]
+
 BUILD IMAGES
 
 for the purposes of this demonstration, I delete all the containers and images, do not run this commands if don’t want to delete all your images
@@ -133,138 +157,7 @@ docker rm $(docker ps -a -q)
 # Delete all images
 docker rmi $(docker images -q)
 
-To build the previous Dockerfile, locate CommandInterfaces directory  and run the following command: it build the DockerFile from the current directory as build context, and name the resulted images as webapi-image
-
-docker build -t webapi-image -f LogCorner.EduSync.Speech\TodoList.WebApi\Dockerfile .
-
-run the following command to list all images
-
-docker images
-
-dockerimages
-
-docker images –filter “dangling=false”
-
-dockerimagesnodanglig
-
-the following images are created :
-
-microsoft/dotnet:2.2-aspnetcore-runtime  (from Dockerfile)
-microsoft/dotnet:2.2-sdk (from Dockerfile)
-webapi-image (from build command)
-RUN CONTAINER
-Run the following command : it runs the webapi-image image , creates a container webapi-container and map port 80 of the container to port 8080 outside of the container
-
-docker run -d  -p 8080:80  –name webapi-container webapi-image
-
-runcontainerwebapi
-The following command list all running containers
-
-docker ps -a
-
-listcontainerwebapi
-
-We have a running container named webapi-container 
-
-Run the following command to view the webapi-container logs
-
-docker logs webapi-container
-
-logscontainerwebapi
-
-Web api is now running and listenning on port 80 inside the container and port 8080 outside the container
-
-So http://localhost:8080/api/speech should hit the api as following
-
-postman-speech
-
-Run again docker logs webapi-container
-
-docker logs webapi-container
-
-logscontainerwebapi-2
-
-The logs says that an error occured because it cannot connect to database
-
-Let us fix it on next step
-
-
 
 # DOCKER-COMPOSE 
-Compose is a tool for defining and running multi-container Docker applications. To learn more about Compose refer to the following documentation : https://docs.docker.com/compose/overview/
 
-Open the docker-compose.yml file, it already contains a TodoList.WebApi service.  update this service to make it depend on database service : TodoList.WebApi.data.
-
-Add a TodoList.WebApi.data service, use the SQL Dockerfile create ealier and SA_PASSWORD as argument.
-
-Docker-compose
-
-The override file, as its name implies, can contain configuration overrides for existing services or entirely new services : https://docs.docker.com/compose/extends/
-
-Open docker-compose.override.yml file, and set ASPNETCORE_ENVIRONMENT = Docker or something else . the goal is to use the appsettings.Docker.json file to set all configuration parameters specific to that environment.
-
-web api service listen on port 80 inside the container and 8080 outside.
-
-database service listen on port 1433 inside the container and 1433 outside.
-
-Docker-compose-overrides
-
-Open appsettings.Docker.json file and add a connectionString  to use SQL Server database
-
-Data Source=TodoList.WebApi.data  (name of the database servcie)
-
-Initial Catalog=TodoList.Database
-
-User=sa;Password=PassW0rd
-
-appsettings.Docker
-
-BUILD IMAGES
-docker-compose build
-
-docker images –filter “dangling=false”
-
-Docker-compose-images
-
-RUN CONTAINER
-docker-compose up
-
-docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"
-
-Docker-compose-container
-
-TESTING
-RUN CONTAINER
-docker-compose up
-
-ATTACH SHELL
-docker exec -it 1997 “bash”
-
-CONNECT TO SQL SERVER INSTANCE OF THE RUNNING CONTAINER
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P ‘PassW0rd’
-
-VERIFY THAT THE DATABASE  TABLE DBO.SPEECH   IS EMPTY
-use [TodoList.Database]
-go
-
-select * from [dbo].[Speech]
-go
-
-0lignes
-
-POST A REQUEST
-Open postman and post a request
-
-postman
-
-VERIFY THAT THE DATABASE TABLE DBO.SPEECH  HAS ONE ROW
-use [TodoList.Database]
-go
-
-select * from [dbo].[Speech]
-go
-
-1line
-
-source code is available here Dockerization
 

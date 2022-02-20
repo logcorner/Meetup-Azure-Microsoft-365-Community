@@ -64,6 +64,9 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="Docker" />
     <Folder Include="Docker\Restore" />
+    <Folder Include="Docker\mssql-tools" />
+    <Folder Include="Docker\mssql-tools\obj" />
+    <Folder Include="Docker\mssql-tools\obj\Docker" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\ToDo.sql" />
@@ -71,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Docker\Dockerfile" />
+    <None Include="Docker\mssql-tools\obj\Docker\CanonicalServiceNames.cache" />
+    <None Include="Docker\mssql-tools\Dockerfile" />
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)bin\$(Configuration)\TodoList.Database_Create.sql" "$(ProjectDir)Docker\Restore" /Y</PostBuildEvent>
