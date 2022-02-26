@@ -30,3 +30,10 @@
 /workshop.TodoList/src/TodoList.WebApi/obj
 /workshop.TodoList/src/TodoList.Database/TodoList.Database.dbmdl
 /workshop.TodoList/src/TodoList.Database/TodoList.Database.jfm
+/workshop.TodoList/src/bin/Debug
+/workshop.TodoList/src/TodoList.Application/bin/Debug/net6.0
+/workshop.TodoList/src/TodoList.Domain/bin/Debug/net6.0
+/workshop.TodoList/src/TodoList.Infrastructure/bin/Debug/net6.0
+/workshop.TodoList/src/TodoList.Infrastructure.UnitTests/bin/Debug/net6.0
+/workshop.TodoList/src/TodoList.SharedKernel.Repository/bin/Debug/netstandard2.1
+/workshop.TodoList/src/TodoList.WebApi/bin/Debug/net6.0
