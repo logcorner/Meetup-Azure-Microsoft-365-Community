@@ -157,7 +157,9 @@ docker rm $(docker ps -a -q)
 # Delete all images
 docker rmi $(docker images -q)
 
+docker build   -f TodoList.WebApi/Dockerfile -t workshop/web-api-image:1.0.0 .
 
+docker run  --name web-api-container -e "ASPNETCORE_ENVIRONMENT=Docker"  -p 8080:80 -d workshop/web-api-image:1.0.0
 # DOCKER-COMPOSE 
 
 
