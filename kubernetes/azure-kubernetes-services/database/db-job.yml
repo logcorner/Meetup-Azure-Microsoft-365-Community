@@ -2,11 +2,10 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: initsqldatabasejob
-  
   labels:
     version: 1.0.0
-    product: init-sql-database-job
-    environment: qa
+    product: workshop-todolist-db
+    environment:  dev
 spec:
   ttlSecondsAfterFinished: 100
   template:
