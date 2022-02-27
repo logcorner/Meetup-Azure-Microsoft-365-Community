@@ -20,7 +20,15 @@ services:
       args:
         SA_PASSWORD: MyC0m9l&xP@ssw0rd
     networks:
-      - TodoList_network      
+      - TodoList_network 
+      
+  todolist.mssql-tools:
+    image: ${DOCKER_REGISTRY-}/todo-list-mssql-tools
+    build:
+      context: TodoList.Database/Docker
+      dockerfile: mssql-tools/Dockerfile
+    networks:
+      - TodoList_network 
 
 networks:
   TodoList_network:
