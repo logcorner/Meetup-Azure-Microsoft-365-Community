@@ -6,23 +6,19 @@ metadata:
   labels:
     version: 1.0.0
     product: workshop-todolist-db
-    environment: qa
+    environment:  dev
 spec:
   replicas: 1
   selector:
      matchLabels:
        app: workshop-todolist-db
-       env: qa
+       env:  dev
   template:
     metadata:
       labels:
        app: workshop-todolist-db
-       env: qa
+       env:  dev
     spec:
-      terminationGracePeriodSeconds: 30
-      hostname: mssqlinst
-      securityContext:
-        fsGroup: 10001
       containers:
       - name: db-domainservice
         image: mcr.microsoft.com/mssql/server:2019-latest 

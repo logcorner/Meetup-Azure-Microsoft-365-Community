@@ -6,11 +6,11 @@ metadata:
   labels:
     version: 1.0.0
     product: workshop-todolist-db
-    environment: qa
+    environment:  dev
 spec:
   selector:
     app: workshop-todolist-db
-    env: qa
+    env:  dev
   ports:
     - protocol: TCP
       port: 1433
