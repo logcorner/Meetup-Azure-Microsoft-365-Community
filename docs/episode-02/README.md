@@ -1,4 +1,4 @@
-# Meetup-Azure-Microsoft-365-Community episode-02
+# Meetup-Azure-Microsoft-365-Community episode-02 : docker
 
 During this journey, I will  talk about dockerization of web api and sql server linux database
 
