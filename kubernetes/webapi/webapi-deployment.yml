@@ -2,15 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: workshop-todolist-webapi-deployment
+  labels:
+    version: 1.0.0
+    product: workshop-todolist-db
+    environment:  dev
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: workshop-todolist-webapi
+      env:  dev
   template:
     metadata:
       labels:
         app: workshop-todolist-webapi
+        env:  dev
     spec:
       containers:
       - name: workshop-todolist-webapi
@@ -22,5 +28,3 @@ spec:
         ports:
         - containerPort: 80
           name: http
-
-
