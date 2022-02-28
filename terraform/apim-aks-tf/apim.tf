@@ -21,12 +21,12 @@ resource "azurerm_api_management_api" "back-end-api" {
   revision            = "1"
   display_name        = "TodoList API"
   path                = "api"
-  service_url          = "http://10.10.1.5"
-  protocols = ["http"]
+  service_url          = var.service_url
+  protocols = ["https"]
 
   import {
     content_format = "openapi-link"
-    content_value  = "http://10.10.1.5/swagger/v1/swagger.json"
+    content_value  = var.swaggerurl
   }
 }
 

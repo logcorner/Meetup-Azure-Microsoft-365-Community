@@ -9,3 +9,11 @@ variable "client_secret" {
 variable "tenant_id" {
   default = "f12a747a-xxxxxxxxxxx055e215a3"
 }
+
+variable "service_url" {
+  default = "http://10.10.1.5"
+}
+variable "swaggerurl" {
+  default = "http://10.10.1.5/swagger/v1/swagger.json"
+}
+
