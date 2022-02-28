@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using TodoList.Infrastructure.Model;
 using TodoList.WebApi;
 using TodoList.WebApi.Exceptions;
@@ -19,7 +20,19 @@ builder.Services.AddToDoServices();
 
 var app = builder.Build();
 
-app.UseSwagger();
+string pathBase = configuration["pathBase"];
+app.UseSwagger(x =>
+{
+    if (!string.IsNullOrWhiteSpace(pathBase))
+    {
+        x.RouteTemplate = "swagger/{documentName}/swagger.json";
+        x.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+        {
+            swaggerDoc.Servers = new List<OpenApiServer>
+                {new OpenApiServer {Url = $"https://{httpReq.Host.Value}{pathBase}"}};
+        });
+    }
+});
 app.UseSwaggerUI();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -28,5 +41,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if (!string.IsNullOrWhiteSpace(pathBase))
+{
+    app.UsePathBase(new PathString(pathBase));
+}
 
 app.Run();

@@ -20,11 +20,11 @@ spec:
     spec:
       containers:
       - name: workshop-todolist-webapi
-        image: logcornerhub/todo-list-web-api
-        imagePullPolicy: Never
+        image: logcornerhub/todo-list-web-api:ingress
+        imagePullPolicy: IfNotPresent
         env:
         - name: ASPNETCORE_ENVIRONMENT
-          value: "Kubernetes"
+          value: "Kubernetes.Ingress"
         ports:
         - containerPort: 80
           name: http

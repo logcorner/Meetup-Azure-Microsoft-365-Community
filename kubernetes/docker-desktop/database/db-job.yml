@@ -13,8 +13,8 @@ spec:
     spec:
       containers:
       - name: sqljobinitcontainer
-        image: logcornerhub/todo-list-mssql-tools
-        imagePullPolicy: Never
+        image: logcornerhub/todo-list.mssql-server:ingress
+        imagePullPolicy: IfNotPresent
         command: ["/opt/mssql-tools/bin/sqlcmd"]
         args: [ "-S", "workshop-todolist-db-service", "-d", "master", "-U", "sa", "-P", "MyC0m9l&xP@ssw0rd", "-I", "-i", "TodoList.Database_Create.sql" ]
       restartPolicy: Never
