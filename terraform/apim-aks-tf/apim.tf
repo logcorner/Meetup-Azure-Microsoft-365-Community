@@ -2,8 +2,8 @@ resource "azurerm_api_management" "apim" {
   name                = "logcorner-apim-aks"
   location            = azurerm_resource_group.apim-aks.location
   resource_group_name = azurerm_resource_group.apim-aks.name
-  publisher_name      = "Nills"
-  publisher_email     = "nilfran@microsoft.com"
+  publisher_name      = "Logcorner"
+  publisher_email     = "xyz@microsoft.com"
 
   sku_name = "Developer_1"
 
@@ -15,11 +15,11 @@ resource "azurerm_api_management" "apim" {
 }
 
 resource "azurerm_api_management_api" "back-end-api" {
-  name                = "example-api"
+  name                = "todolist-api"
   resource_group_name = azurerm_resource_group.apim-aks.name
   api_management_name = azurerm_api_management.apim.name
   revision            = "1"
-  display_name        = "Example API"
+  display_name        = "TodoList API"
   path                = "api"
   service_url          = "http://10.10.1.5"
   protocols = ["http"]
@@ -31,10 +31,10 @@ resource "azurerm_api_management_api" "back-end-api" {
 }
 
 resource "azurerm_api_management_product" "product" {
-  product_id            = "nginx"
+  product_id            = "tololist"
   api_management_name   = azurerm_api_management.apim.name
   resource_group_name   = azurerm_resource_group.apim-aks.name
-  display_name          = "Test Product"
+  display_name          = "TodoList Product"
   subscription_required = false
   approval_required     = false
   published             = true

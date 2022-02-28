@@ -14,7 +14,6 @@ resource "azurerm_subnet" "aks" {
   name                 = "aks-subnet"
   resource_group_name  = azurerm_resource_group.apim-aks.name
   virtual_network_name = azurerm_virtual_network.apim-aks.name
-  #address_prefix       = "10.10.1.0/24"
   address_prefixes = ["10.10.1.0/24"]
 }
 
@@ -22,6 +21,5 @@ resource "azurerm_subnet" "apim" {
   name                 = "apim-subnet"
   resource_group_name  = azurerm_resource_group.apim-aks.name
   virtual_network_name = azurerm_virtual_network.apim-aks.name
-  #address_prefix       = "10.10.2.0/24"
   address_prefixes = ["10.10.2.0/24"]
 }
