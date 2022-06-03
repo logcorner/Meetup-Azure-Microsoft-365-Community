@@ -22,23 +22,6 @@ namespace TodoList.Domain.UnitTests.Specs
             Assert.Throws<Exceptions.ArgumentNullException>(() => new Todo(It.IsAny<int>(), title, description, imageUrl));
         }
 
-        //[Theory]
-        //[InlineData(null)]
-        ////[InlineData("4")]
-        //[InlineData("")]
-        //[InlineData("newx")]
-        //public void Todo_StatusIsInvalid_ThrowsArgumentNullException(string status)
-        //{
-        //    //Arrange
-        //    string title = "this is the title";
-        //    string description = "desc";
-        //    string imageUrl = "imageUrl";
-
-        //    //Act
-        //    //Assert
-        //    Assert.Throws<ArgumentNullException>(() => new Todo(It.IsAny<int>(), title, description, status, imageUrl));
-        //}
-
         [Fact]
         public void Todo_IsInvalidInput_CreateInstance()
         {
@@ -141,9 +124,6 @@ namespace TodoList.Domain.UnitTests.Specs
         public void Update_AllParametersAreNull_ThrowsArgumentNullException(string title, string description, string imageUrl)
         {
             //Arrange
-            //string title = "this is the title";
-            //string description = "desc";
-            //string imageUrl = "imageUrl";
 
             //Act
             var todo = new Todo(1, "this is the title", "this is the description",

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using TodoList.Application;
+﻿using TodoList.Application;
 using TodoList.Domain;
 using TodoList.Infrastructure;
 

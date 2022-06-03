@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TodoList.Domain;
+﻿using TodoList.Domain;
 
 namespace TodoList.WebApi.Models.Todo
 {

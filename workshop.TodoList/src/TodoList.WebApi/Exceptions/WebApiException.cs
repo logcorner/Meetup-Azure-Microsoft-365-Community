@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TodoList.WebApi.Exceptions
+﻿namespace TodoList.WebApi.Exceptions
 {
     public class WebApiException : Exception
     {

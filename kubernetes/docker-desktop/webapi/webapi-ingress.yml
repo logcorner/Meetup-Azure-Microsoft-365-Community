@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-api-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+spec:
+  tls:
+    - hosts:
+      - kubernetes.docker.com
+      secretName: logcorner-ingress-tls
+  rules:
+    - host: kubernetes.docker.com
+      http:
+        paths:
+          - path: /http-api(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: workshop-todolist-webapi-service
+                port:
+                  number: 80
