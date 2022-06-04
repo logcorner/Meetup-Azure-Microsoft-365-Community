@@ -37,4 +37,16 @@
 /workshop.TodoList/src/TodoList.Infrastructure.UnitTests/bin/Debug/net6.0
 /workshop.TodoList/src/TodoList.SharedKernel.Repository/bin/Debug/netstandard2.1
 /workshop.TodoList/src/TodoList.WebApi/bin/Debug/net6.0
+/workshop.TodoList/src/TodoList.Shared/obj
+/workshop.TodoList/src/TodoList.SharedKernel.Api/obj
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/azuread/2.15.0/windows_amd64/terraform-provider-azuread_v2.15.0_x5.exe
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/azuread/2.18.0/windows_amd64/terraform-provider-azuread_v2.18.0_x5.exe
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/azuread/2.7.0/windows_amd64/terraform-provider-azuread_v2.7.0_x5.exe
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/azurerm/2.98.0/windows_amd64/terraform-provider-azurerm_v2.98.0_x5.exe
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/kubernetes/2.8.0/windows_amd64/terraform-provider-kubernetes_v2.8.0_x5.exe
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/random/3.1.0/windows_amd64/terraform-provider-random_v3.1.0_x5.exe
+terraform/apim-aks-tf/.terraform/providers/registry.terraform.io/hashicorp/azuread/2.6.0/windows_amd64/terraform-provider-azuread_v2.6.0_x5.exe
+terraform/apim-aks-tf/terraform.tfstate.backup
+terraform/apim-aks-tf/.terraform.lock.hcl
+terraform/apim-aks-tf/terraform.tfstate
 /workshop.TodoList/src/.vs/ProjectEvaluation
