@@ -8,8 +8,6 @@ trigger:
 
 pool:
   vmImage: windows-latest
-  demands:
-  - dotnet
   
 
 variables:
