@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "60. WebApi", "60. WebApi", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoList.WebApi.IntegrationTests", "TodoList.WebApi.IntegrationTests\TodoList.WebApi.IntegrationTests.csproj", "{9E9B6208-5649-452D-98CD-0B208E74EE3E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoList.WebApi.UnitTests", "TodoList.WebApi.UnitTests\TodoList.WebApi.UnitTests.csproj", "{B84A362A-E694-4FDF-9F00-C5721E472902}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{9E9B6208-5649-452D-98CD-0B208E74EE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E9B6208-5649-452D-98CD-0B208E74EE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E9B6208-5649-452D-98CD-0B208E74EE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B84A362A-E694-4FDF-9F00-C5721E472902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B84A362A-E694-4FDF-9F00-C5721E472902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B84A362A-E694-4FDF-9F00-C5721E472902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B84A362A-E694-4FDF-9F00-C5721E472902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{C0CCC0AD-A09C-4769-8F7E-E27118AB9D7A} = {1A8B3860-7BD3-472D-8794-82077AA0B651}
 		{42EB7723-CD2F-41C9-95DB-62F1D59E65C5} = {DEA072A3-241C-4575-A616-B426C476FC4F}
 		{9E9B6208-5649-452D-98CD-0B208E74EE3E} = {C381ABBB-591A-49AD-8448-07DCFA596BDA}
+		{B84A362A-E694-4FDF-9F00-C5721E472902} = {C381ABBB-591A-49AD-8448-07DCFA596BDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E915C22F-E0F7-4131-93B5-1293788ABB64}
