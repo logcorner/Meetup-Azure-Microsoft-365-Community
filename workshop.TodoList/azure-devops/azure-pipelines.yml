@@ -12,7 +12,7 @@ pool:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
+    command: 'restore'
     projects: '**/*.csproj'
     workingDirectory: '$(System.DefaultWorkingDirectory)/src'
 - task: DotNetCoreCLI@2
