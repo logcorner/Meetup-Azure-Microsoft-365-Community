@@ -7,11 +7,19 @@ trigger:
 - ci-cd-azure-pipeline
 
 pool:
+  vmImage: windows-latest
+  demands:
+  - dotnet
   vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
 steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/src'
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
