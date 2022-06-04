@@ -3,8 +3,9 @@
 ################################################################################
 
 *.sqlite
-/.vs
-/workshop.TodoList/src/TodoList/.vs/TodoList
-/workshop.TodoList/src/TodoList/TodoList.WebApi/bin/Debug/net6.0
-/workshop.TodoList/src/TodoList/TodoList.WebApi/obj/Debug/net6.0
-/workshop.TodoList/src/TodoList/TodoList.WebApi/obj
+
+/**/.vs/
+/**/bin/
+/**/obj/
+/**/*.dbmdl
+*.jfm
