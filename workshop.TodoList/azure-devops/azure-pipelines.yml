@@ -54,12 +54,12 @@ stages:
     - task: VSBuild@1
       displayName: Build Visual Studio solution
       inputs:
-        solution: '$(Build.SourcesDirectory)/src/TodoList.Database/TodoList.Database.sqlproj'
+        solution: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/TodoList.Database.sqlproj'
 
     - task: CopyFiles@2
       displayName: Copy DACPAC
       inputs:
-        sourceFolder: '$(Build.SourcesDirectory)/TodoList.Database/bin'
+        sourceFolder: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/bin'
         contents: '**/*.dacpac'
         targetFolder: '$(Build.ArtifactStagingDirectory)/database'
         flattenFolders: true
