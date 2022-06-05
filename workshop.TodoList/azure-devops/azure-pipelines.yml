@@ -92,3 +92,16 @@ stages:
               appType: 'webAppLinux'
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          - task: SqlAzureDacpacDeployment@1
+            name: DeploySqlDatabaseDacpac
+            displayName: Deploy DACPAC to database
+            inputs:
+              ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
+              authenticationType: 'server'
+              serverName: $(sqlServerFullyQualifiedDomainName)
+              databaseName: $(sqlDatabaseName)
+              sqlUsername: $(SqlServerAdministratorLogin)
+              sqlPassword: $(SqlServerAdministratorLoginPassword)
+              deployType: 'DacpacTask'
+              deploymentAction: 'Publish'
+              dacpacFile: '$(Pipeline.Workspace)/database/ToyCompany.Database.dacpac'
