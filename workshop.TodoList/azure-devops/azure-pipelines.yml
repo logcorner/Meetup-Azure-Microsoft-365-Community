@@ -104,4 +104,4 @@ stages:
               sqlPassword: $(SqlServerAdministratorLoginPassword)
               deployType: 'DacpacTask'
               deploymentAction: 'Publish'
-              dacpacFile: '$(Pipeline.Workspace)/database/ToyCompany.Database.dacpac'
+              dacpacFile: '$(Pipeline.Workspace)/database/TodoList.Database.dacpac'
