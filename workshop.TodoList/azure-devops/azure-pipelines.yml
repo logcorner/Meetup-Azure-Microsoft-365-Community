@@ -45,6 +45,30 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: drop'
       condition: succeeded()
+  - job: 'db'
+    displayName: 'Build Data Base job'
+    pool:
+      vmImage: windows-latest
+    steps:
+    # Build, copy, and publish the DACPAC file.
+    - task: VSBuild@1
+      displayName: Build Visual Studio solution
+      inputs:
+        solution: '$(Build.SourcesDirectory)/src/TodoList.Database/TodoList.Database.sqlproj'
+
+    - task: CopyFiles@2
+      displayName: Copy DACPAC
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)/TodoList.Database/bin'
+        contents: '**/*.dacpac'
+        targetFolder: '$(Build.ArtifactStagingDirectory)/database'
+        flattenFolders: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish DACPAC as pipeline artifact
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/database'
+        artifactName: 'database'
 - stage: 'Deploy'
   displayName: 'Deploy the web application'
   dependsOn: Build
