@@ -1,3 +1,4 @@
+[![Board Status](https://logcorner.visualstudio.com/95c6883b-d4db-479f-93f5-6d11cdc77f20/c1ee0ec7-7a5f-4420-9a60-5436d4a033e2/_apis/work/boardbadge/77fe0d1e-bb45-49df-ac15-1a98a173df18)](https://logcorner.visualstudio.com/95c6883b-d4db-479f-93f5-6d11cdc77f20/_boards/board/t/c1ee0ec7-7a5f-4420-9a60-5436d4a033e2/Microsoft.RequirementCategory)
 # Meetup-Azure-Microsoft-365-Community
 
 # install azure cli
