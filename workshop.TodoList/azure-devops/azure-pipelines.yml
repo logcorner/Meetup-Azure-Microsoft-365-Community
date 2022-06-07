@@ -50,7 +50,7 @@ stages:
       inputs:
         command: 'custom'
         custom: 'tool'
-        arguments: 'install dotnet-reportgenerator-globaltool'
+        arguments: 'install dotnet-reportgenerator-globaltool --global'
     - task: DotNetCoreCLI@2
       displayName: 'Run unit tests - $(buildConfiguration)'
       inputs:
