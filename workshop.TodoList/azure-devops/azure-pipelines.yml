@@ -1,0 +1,157 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+  
+variables:
+  buildConfiguration: 'Release'
+ 
+stages:
+- stage: 'Build'
+  displayName: 'Build the web application and SQL Serer Database'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/src'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - Release'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests - $(buildConfiguration)'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --configuration $(buildConfiguration)'
+        publishTestResults: true
+        projects: '**/*.UnitTests.csproj'
+    # - task: DotNetCoreCLI@2
+    #   displayName: 'Install .NET tools from local manifest'
+    #   inputs:
+    #     command: custom
+    #     custom: tool
+    #     arguments: 'restore'
+    # - task: DotNetCoreCLI@2
+    #   inputs:
+    #     command: 'custom'
+    #     custom: 'tool'
+    #     arguments: 'install dotnet-reportgenerator-globaltool --global'
+    # - task: DotNetCoreCLI@2
+    #   displayName: 'Run unit tests - $(buildConfiguration)'
+    #   inputs:
+    #     command: 'test'
+    #     arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    #     publishTestResults: true
+    #     projects: '**/*.UnitTests.csproj'
+
+    # - task: DotNetCoreCLI@2
+    #   displayName: 'Create code coverage report'
+    #   inputs:
+    #     command: custom
+    #     custom: tool
+    #     arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
+    #   condition: succeededOrFailed()
+    # - task: PublishCodeCoverageResults@1
+    #   displayName: 'Publish code coverage report'
+    #   inputs:
+    #     codeCoverageTool: 'cobertura'
+    #     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - Release'
+      inputs:
+        command: 'publish'
+        projects: '**/TodoList.WebApi.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Release'
+        zipAfterPublish: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
+  - job: 'db'
+    displayName: 'Build Data Base job'
+    pool:
+      vmImage: windows-latest
+    steps:
+    # Build, copy, and publish the DACPAC file.
+    - task: VSBuild@1
+      displayName: Build Sql Serer Database project
+      inputs:
+        solution: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/TodoList.Database.sqlproj'
+
+    - task: CopyFiles@2
+      displayName: Copy DACPAC File
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/bin'
+        contents: '**/*.dacpac'
+        targetFolder: '$(Build.ArtifactStagingDirectory)/database'
+        flattenFolders: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish DACPAC as pipeline artifact
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/database'
+        artifactName: 'database'
+- stage: 'Deploy'
+  displayName: 'Deploy the web application and the Database'
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: windows-latest
+    environment: dev
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'Meetup-Azure-Microsoft-365-Community'
+              appType: 'webAppLinux'
+              appName: '$(WebAppName)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: 'Get-ChildItem -Path $(Build.ArtifactStagingDirectory)  -Recurse -Force'
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'database'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: 'Get-ChildItem -Path $(System.ArtifactsDirectory)  -Recurse -Force'
+          - task: SqlAzureDacpacDeployment@1
+            name: DeploySqlDatabaseDacpac
+            displayName: Deploy DACPAC to database
+            inputs:
+              ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
+              authenticationType: 'server'
+              serverName: $(sqlServerFullyQualifiedDomainName)
+              databaseName: $(sqlDatabaseName)
+              sqlUsername: $(SqlServerAdministratorLogin)
+              sqlPassword: $(SqlServerAdministratorLoginPassword)
+              deployType: 'DacpacTask'
+              deploymentAction: 'Publish'
+              dacpacFile: '$(System.ArtifactsDirectory)/database/TodoList.Database.dacpac'

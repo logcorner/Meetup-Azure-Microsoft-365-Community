@@ -13,20 +13,20 @@ namespace TodoList.Application.UnitTests.Specs
 {
     public class ToDoUseCaseUnitTest
     {
-        [Fact]
-        public async Task AddToDo_InputIsInvalid_ThrowsArgumentNullException()
-        {
-            //Arrange
-            Mock<IRepository<Todo>> mockTodoRepository = new Mock<IRepository<Todo>>();
+        //[Fact]
+        //public async Task AddToDo_InputIsInvalid_ThrowsArgumentNullException()
+        //{
+        //    //Arrange
+        //    Mock<IRepository<Todo>> mockTodoRepository = new Mock<IRepository<Todo>>();
 
-            mockTodoRepository.Setup(m => m.Create(It.IsAny<Todo>())).Verifiable();
+        //    mockTodoRepository.Setup(m => m.Create(It.IsAny<Todo>())).Verifiable();
 
-            ITodoUseCase todoUseCase = new TodoUseCase(mockTodoRepository.Object);
+        //    ITodoUseCase todoUseCase = new TodoUseCase(mockTodoRepository.Object);
 
-            //Act
-            //Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(() => todoUseCase.AddToDo(null));
-        }
+        //    //Act
+        //    //Assert
+        //    await Assert.ThrowsAsync<ArgumentNullException>(() => todoUseCase.AddToDo(null));
+        //}
 
         [Fact]
         public async Task AddToDo_InputIsValid_CreateTodo()
@@ -122,21 +122,21 @@ namespace TodoList.Application.UnitTests.Specs
             mockTodoRepository.Verify(r => r.Delete(It.IsAny<int>()), Times.Once);
         }
 
-        [Fact]
-        public async Task UpdateToDo_InputIsNull_ThrowsNotFoundException()
-        {
-            //Arrange
+        //[Fact]
+        //public async Task UpdateToDo_InputIsNull_ThrowsNotFoundException()
+        //{
+        //    //Arrange
 
-            Mock<IRepository<Todo>> mockTodoRepository = new Mock<IRepository<Todo>>();
+        //    Mock<IRepository<Todo>> mockTodoRepository = new Mock<IRepository<Todo>>();
 
-            mockTodoRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(Task.FromResult<Todo>(null));
+        //    mockTodoRepository.Setup(m => m.Get(It.IsAny<int>())).Returns(Task.FromResult<Todo>(null));
 
-            ITodoUseCase todoUseCase = new TodoUseCase(mockTodoRepository.Object);
+        //    ITodoUseCase todoUseCase = new TodoUseCase(mockTodoRepository.Object);
 
-            //Act
-            //Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(() => todoUseCase.UpdateToDo(null));
-        }
+        //    //Act
+        //    //Assert
+        //    await Assert.ThrowsAsync<ArgumentNullException>(() => todoUseCase.UpdateToDo(null));
+        //}
 
         [Fact]
         public async Task UpdateToDo_TodoNotFound_ThrowsNotFoundException()

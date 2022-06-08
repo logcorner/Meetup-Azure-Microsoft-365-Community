@@ -70,6 +70,7 @@ namespace TodoList.Infrastructure.Model
 
             OnModelCreatingPartial(modelBuilder);
         }
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

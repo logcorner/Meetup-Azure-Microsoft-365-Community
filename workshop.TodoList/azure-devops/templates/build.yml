@@ -1,0 +1,68 @@
+parameters:
+  buildConfiguration: 'Release'
+# stages:
+# - stage: 'Build'
+#   displayName: 'Build the web application and SQL Serer Database'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/src'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - Release'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration  ${{ parameters.buildConfiguration }}'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests -  ${{ parameters.buildConfiguration }}'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --configuration  ${{ parameters.buildConfiguration }}'
+        publishTestResults: true
+        projects: '**/*.UnitTests.csproj'
+   
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - Release'
+      inputs:
+        command: 'publish'
+        projects: '**/TodoList.WebApi.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration  ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/Release'
+        zipAfterPublish: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
+  - job: 'db'
+    displayName: 'Build Data Base job'
+    pool:
+      vmImage: windows-latest
+    steps:
+    # Build, copy, and publish the DACPAC file.
+    - task: VSBuild@1
+      displayName: Build Sql Serer Database project
+      inputs:
+        solution: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/TodoList.Database.sqlproj'
+
+    - task: CopyFiles@2
+      displayName: Copy DACPAC File
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/bin'
+        contents: '**/*.dacpac'
+        targetFolder: '$(Build.ArtifactStagingDirectory)/database'
+        flattenFolders: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish DACPAC as pipeline artifact
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/database'
+        artifactName: 'database'
