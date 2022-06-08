@@ -1,7 +1,7 @@
 parameters:
   buildConfiguration: 'Release'
 jobs:
-- job: Build
+- job: BuildWebApi
   pool:
     vmImage: 'windows-latest'
   steps:
@@ -39,7 +39,7 @@ jobs:
     displayName: 'Publish Artifact: drop'
     condition: succeeded()
 
-- job:
+- job: BuildDataBase
   pool:
     vmImage: 'windows-latest'
   steps:

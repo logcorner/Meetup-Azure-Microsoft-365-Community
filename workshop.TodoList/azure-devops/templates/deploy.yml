@@ -14,10 +14,10 @@ parameters:
 - name: sqlServerAdministratorLoginPassword
 - name: environment
 - name: variablesGroup
-stages:
-- stage: 'Deploy_${{ parameters.environment }}'
-  displayName: 'Deploy the web application and the Database to << ${{ parameters.environment }} >> environment'
-  dependsOn: Build
+# stages:
+# - stage: 'Deploy_${{ parameters.environment }}'
+#   displayName: 'Deploy the web application and the Database to << ${{ parameters.environment }} >> environment'
+#   dependsOn: Build
   jobs:
   - deployment: Deploy_${{ parameters.environment }}
     pool:

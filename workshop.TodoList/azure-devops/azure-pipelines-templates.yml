@@ -11,6 +11,19 @@ stages:
   - template: templates/jobs.yml  # Template reference
     parameters:
       buildConfiguration: 'Release'
+- stage: 'Dev'
+  displayName: 'Build the web application and SQL Serer Database'
+  jobs:
+  - template: templates/deploy.yml
+  parameters:
+    buildConfiguration: 'Release'
+    webAppName: '$(WebAppName)'
+    sqlDatabaseName: $(SqlDatabaseName)
+    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+    environment: dev
+    variablesGroup: Dev
   # - template: templates/jobs.yml  # Template reference
   # - template: templates/jobs.yml  # Template reference
 # - stage: 'Build'
