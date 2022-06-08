@@ -13,6 +13,7 @@ stages:
       buildConfiguration: 'Release'
 - stage: 'Dev'
   displayName: 'Build the web application and SQL Serer Database'
+  dependsOn: Build
   jobs:
   - template: templates/deploy.yml
     parameters:
