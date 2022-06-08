@@ -44,9 +44,9 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - task: VSBuild@1
-      displayName: Build Sql Serer Database project
-      inputs:
-        solution: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/TodoList.Database.sqlproj'
+    displayName: Build Sql Serer Database project
+    inputs:
+      solution: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/TodoList.Database.sqlproj'
 
   - task: CopyFiles@2
     displayName: Copy DACPAC File
