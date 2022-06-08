@@ -5,11 +5,11 @@ variables:
   buildConfiguration: 'Release'
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 stages:
-# File: azure-pipelines.yml
+
 - stage: 'Build'
   displayName: 'Build the web application and SQL Serer Database'
   jobs:
-  - template: templates/jobs.yml  # Template reference
+  - template: templates/build.yml 
     parameters:
       buildConfiguration: 'Release'
 - stage: 'Dev'
@@ -55,41 +55,4 @@ stages:
       sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
       environment: staging
       variablesGroup: Prod
-  # - template: templates/jobs.yml  # Template reference
-  # - template: templates/jobs.yml  # Template reference
-# - stage: 'Build'
-#   displayName: 'Build the web application and SQL Serer Database'
-#   jobs: 
-#   - template: templates/build.yml
-#     parameters:
-#       buildConfiguration: 'Release'
-# - template: templates/deploy.yml
-#   parameters:
-#     buildConfiguration: 'Release'
-#     webAppName: '$(WebAppName)'
-#     sqlDatabaseName: $(SqlDatabaseName)
-#     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-#     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
-#     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-#     environment: dev
-#     variablesGroup: Dev
-# - template: templates/deploy.yml
-#   parameters:
-#     buildConfiguration: 'Release'
-#     webAppName: '$(WebAppName)'
-#     sqlDatabaseName: $(SqlDatabaseName)
-#     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-#     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
-#     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-#     environment: test
-#     variablesGroup: Test
-# - template: templates/deploy.yml
-#   parameters:
-#     buildConfiguration: 'Release'
-#     webAppName: '$(WebAppName)'
-#     sqlDatabaseName: $(SqlDatabaseName)
-#     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-#     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
-#     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-#     environment: staging
-#     variablesGroup: Prod
+  

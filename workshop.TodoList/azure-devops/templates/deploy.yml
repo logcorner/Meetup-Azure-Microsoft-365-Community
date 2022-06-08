@@ -1,11 +1,4 @@
 parameters:
-  # buildConfiguration: 'Release'
-  # webAppName: '$(WebAppName)'
-  # sqlDatabaseName: $(sqlDatabaseName)
-  # sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-  # sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
-  # sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-  # environment: dev
 - name: buildConfiguration
 - name: webAppName
 - name: sqlDatabaseName
@@ -14,10 +7,6 @@ parameters:
 - name: sqlServerAdministratorLoginPassword
 - name: environment
 - name: variablesGroup
-# stages:
-# - stage: 'Deploy_${{ parameters.environment }}'
-#   displayName: 'Deploy the web application and the Database to << ${{ parameters.environment }} >> environment'
-#   dependsOn: Build
 jobs:
 - deployment: Deploy_${{ parameters.environment }}
   pool:
