@@ -10,3 +10,18 @@ stages:
 - template: templates/deploy.yml
   parameters:
     buildConfiguration: 'Release'
+    webAppName: '$(WebAppName)'
+    sqlDatabaseName: $(sqlDatabaseName)
+    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+    sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
+    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+    environment: dev
+- template: templates/deploy.yml
+  parameters:
+    buildConfiguration: 'Release'
+    webAppName: '$(WebAppName)'
+    sqlDatabaseName: $(sqlDatabaseName)
+    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+    sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
+    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+    environment: test

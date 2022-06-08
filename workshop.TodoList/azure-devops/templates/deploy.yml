@@ -1,11 +1,18 @@
 parameters:
-  buildConfiguration: 'Release'
-  webAppName: '$(WebAppName)'
-  sqlDatabaseName: $(sqlDatabaseName)
-  sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-  sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
-  sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-  environment: dev
+  # buildConfiguration: 'Release'
+  # webAppName: '$(WebAppName)'
+  # sqlDatabaseName: $(sqlDatabaseName)
+  # sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+  # sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
+  # sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+  # environment: dev
+- name: buildConfiguration
+- name: webAppName
+- name: sqlDatabaseName
+- name: sqlServerAdministratorLogin
+- name: sqlServerFullyQualifiedDomainName
+- name: sqlServerAdministratorLoginPassword
+- name: environment
 stages:
 - stage: 'Deploy'
   displayName: 'Deploy the web application and the Database'
@@ -50,8 +57,8 @@ stages:
             inputs:
               ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
               authenticationType: 'server'
-              serverName: ${{ parameters.sqlDatabaseName }}
-              databaseName: ${{ parameters.sqlServerFullyQualifiedDomainName }}
+              serverName: ${{ parameters.sqlServerFullyQualifiedDomainName }}
+              databaseName: ${{ parameters.sqlDatabaseName }}
               sqlUsername: ${{ parameters.sqlServerAdministratorLogin }}
               sqlPassword: ${{ parameters.sqlServerAdministratorLoginPassword }}
               deployType: 'DacpacTask'
