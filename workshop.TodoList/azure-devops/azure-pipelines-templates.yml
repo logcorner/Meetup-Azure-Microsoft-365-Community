@@ -27,3 +27,13 @@ stages:
     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
     environment: test
     variablesGroup: Test
+- template: templates/deploy.yml
+  parameters:
+    buildConfiguration: 'Release'
+    webAppName: '$(WebAppName)'
+    sqlDatabaseName: $(SqlDatabaseName)
+    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+    environment: staging
+    variablesGroup: Prod
