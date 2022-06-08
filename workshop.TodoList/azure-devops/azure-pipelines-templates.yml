@@ -5,11 +5,12 @@ variables:
   buildConfiguration: 'Release'
 stages:
 # File: azure-pipelines.yml
-
-jobs:
-- template: templates/jobs.yml  # Template reference
-- template: templates/jobs.yml  # Template reference
-- template: templates/jobs.yml  # Template reference
+- stage: 'Build'
+  displayName: 'Build the web application and SQL Serer Database'
+  jobs:
+  - template: templates/jobs.yml  # Template reference
+  - template: templates/jobs.yml  # Template reference
+  - template: templates/jobs.yml  # Template reference
 # - stage: 'Build'
 #   displayName: 'Build the web application and SQL Serer Database'
 #   jobs: 
