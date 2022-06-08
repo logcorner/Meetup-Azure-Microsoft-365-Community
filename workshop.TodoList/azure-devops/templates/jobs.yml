@@ -1,0 +1,13 @@
+# File: templates/jobs.yml
+jobs:
+- job: 
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - bash: echo "Hello Ubuntu"
+
+- job:
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - bash: echo "Hello Windows"

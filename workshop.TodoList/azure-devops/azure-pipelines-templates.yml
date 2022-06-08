@@ -4,13 +4,18 @@ trigger:
 variables:
   buildConfiguration: 'Release'
 stages:
+# File: azure-pipelines.yml
 
-- stage: 'Build'
-  displayName: 'Build the web application and SQL Serer Database'
-  jobs: 
-  - template: templates/build.yml
-    parameters:
-      buildConfiguration: 'Release'
+jobs:
+- template: templates/jobs.yml  # Template reference
+- template: templates/jobs.yml  # Template reference
+- template: templates/jobs.yml  # Template reference
+# - stage: 'Build'
+#   displayName: 'Build the web application and SQL Serer Database'
+#   jobs: 
+#   - template: templates/build.yml
+#     parameters:
+#       buildConfiguration: 'Release'
 # - template: templates/deploy.yml
 #   parameters:
 #     buildConfiguration: 'Release'
