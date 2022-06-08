@@ -1,44 +1,28 @@
 # Meetup-Azure-Microsoft-365-Community
 
-# install azure cli
-https://docs.microsoft.com/fr-fr/cli/azure/install-azure-cli-windows?tabs=azure-cli
+![introducing-devops](https://user-images.githubusercontent.com/5066547/172651403-a574493e-00ee-4253-8adc-f862b2afee9b.png)
 
-az --version
-azure-cli                         2.31.0 *
 
-# Installer et configurer kubectl
+1 -#Devops / #Devsecops pour les débutants
+« DevOps est la conjugaison de personnes, de processus et de produits qui permettent de fournir en continu de la valeur à nos utilisateurs finaux ». -Selon Donovan Brown dans Qu’est-ce que DevOps ?
 
-https://kubernetes.io/fr/docs/tasks/tools/install-kubectl/
-https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
+Réduire votre temps de cycle
+Lorsque vous adoptez les pratiques DevOps :
 
-kubectl version --client
+Vous réduisez votre temps de cycle en travaillant dans des lots plus petits.
+Utilisation plus grande de l’automatisation.
+Renforcement de votre pipeline de mise en version.
+Amélioration de vos données de télémétrie.
+Déploiement plus fréquent.
 
-# build and tag images 
-docker-compoe build 
+Secrets et security : les mots de passes ne doivent pas être versionnés
 
-# prepare and push images to azure container registry
-az login
-az account set --subscription YOUR_SUBSCRIPTION_ID
-az acr login --name aksacrkhhdlog
-docker tag logcornerhub/todo-list-mssql-tools  aksacrkhhdlog.azurecr.io/todo-list-mssql-tools
-docker push aksacrkhhdlog.azurecr.io/todo-list-mssql-tools
+2 - Bases et exigences du métiers
+3 - Tendance du marché
+4 - Formations et Certifications
+5 - Conseils et Suggestions
 
-docker tag logcornerhub/todo-list-web-api   aksacrkhhdlog.azurecr.io/todo-list-web-api
-docker push aksacrkhhdlog.azurecr.io/todo-list-web-api
+rather than aiming for speed , focus on eliminating waste
 
-# prepare and deploy to aks
-
-az aks get-credentials --resource-group $resourceGroupName --name $clusterName
-
-C:\Users\tocan\.kube\config
-
-az aks browse --resource-group=$resourceGroupName --name=$clusterName
-
-# kubernetes dashboad
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
-kubectl proxy
-
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
-
-kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
-
+# Azure devops
+![introducing-azure-devops](https://user-images.githubusercontent.com/5066547/172651538-e032c5d2-fc40-4b70-a991-3500c1a56b21.png)
