@@ -1,8 +1,8 @@
 parameters:
   buildConfiguration: 'Release'
-stages:
-- stage: 'Build'
-  displayName: 'Build the web application and SQL Serer Database'
+# stages:
+# - stage: 'Build'
+#   displayName: 'Build the web application and SQL Serer Database'
   jobs: 
   - job: 'Build'
     displayName: 'Build job'

@@ -4,36 +4,39 @@ trigger:
 variables:
   buildConfiguration: 'Release'
 stages:
+
+- stage: 'Build'
+  displayName: 'Build the web application and SQL Serer Database'
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
-- template: templates/deploy.yml
-  parameters:
-    buildConfiguration: 'Release'
-    webAppName: '$(WebAppName)'
-    sqlDatabaseName: $(SqlDatabaseName)
-    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
-    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-    environment: dev
-    variablesGroup: Dev
-- template: templates/deploy.yml
-  parameters:
-    buildConfiguration: 'Release'
-    webAppName: '$(WebAppName)'
-    sqlDatabaseName: $(SqlDatabaseName)
-    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
-    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-    environment: test
-    variablesGroup: Test
-- template: templates/deploy.yml
-  parameters:
-    buildConfiguration: 'Release'
-    webAppName: '$(WebAppName)'
-    sqlDatabaseName: $(SqlDatabaseName)
-    sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
-    sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
-    environment: staging
-    variablesGroup: Prod
+# - template: templates/deploy.yml
+#   parameters:
+#     buildConfiguration: 'Release'
+#     webAppName: '$(WebAppName)'
+#     sqlDatabaseName: $(SqlDatabaseName)
+#     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+#     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+#     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+#     environment: dev
+#     variablesGroup: Dev
+# - template: templates/deploy.yml
+#   parameters:
+#     buildConfiguration: 'Release'
+#     webAppName: '$(WebAppName)'
+#     sqlDatabaseName: $(SqlDatabaseName)
+#     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+#     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+#     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+#     environment: test
+#     variablesGroup: Test
+# - template: templates/deploy.yml
+#   parameters:
+#     buildConfiguration: 'Release'
+#     webAppName: '$(WebAppName)'
+#     sqlDatabaseName: $(SqlDatabaseName)
+#     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+#     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+#     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+#     environment: staging
+#     variablesGroup: Prod
