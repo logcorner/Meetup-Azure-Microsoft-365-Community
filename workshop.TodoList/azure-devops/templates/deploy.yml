@@ -15,7 +15,7 @@ parameters:
 - name: environment
 - name: variablesGroup
 stages:
-- stage: 'Deploy_${{ parameters.environment }}'
+- stage: 'Deploy'
   displayName: 'Deploy the web application and the Database to << ${{ parameters.environment }} >> environment'
   dependsOn: Build
   jobs:
