@@ -1,5 +1,10 @@
 parameters:
   buildConfiguration: 'Release'
+  webAppName: '$(WebAppName)'
+  sqlDatabaseName: $(sqlDatabaseName)
+  sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+  sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
+  sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
 stages:
 - stage: 'Deploy'
   displayName: 'Deploy the web application and the Database'
@@ -22,7 +27,7 @@ stages:
             inputs:
               azureSubscription: 'Meetup-Azure-Microsoft-365-Community'
               appType: 'webAppLinux'
-              appName: '$(WebAppName)'
+              appName: '${{ parameters.webAppName }}'
               package: '$(Pipeline.Workspace)/drop/${{ parameters.buildConfiguration }}/*.zip'
           - task: PowerShell@2
             inputs:
@@ -44,10 +49,10 @@ stages:
             inputs:
               ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
               authenticationType: 'server'
-              serverName: $(sqlServerFullyQualifiedDomainName)
-              databaseName: $(sqlDatabaseName)
-              sqlUsername: $(SqlServerAdministratorLogin)
-              sqlPassword: $(SqlServerAdministratorLoginPassword)
+              serverName: ${{ parameters.sqlDatabaseName }}
+              databaseName: ${{ parameters.sqlDatabaseName }}
+              sqlUsername: ${{ parameters.sqlServerAdministratorLogin }}
+              sqlPassword: ${{ parameters.sqlServerAdministratorLoginPassword }}
               deployType: 'DacpacTask'
               deploymentAction: 'Publish'
               dacpacFile: '$(System.ArtifactsDirectory)/database/TodoList.Database.dacpac'
