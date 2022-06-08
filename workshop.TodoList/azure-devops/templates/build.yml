@@ -1,12 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- ci-cd-azure-pipeline
-  
-variables:
+parameters:
   buildConfiguration: 'Release'
 stages:
 - stage: 'Build'
@@ -28,53 +20,23 @@ stages:
       displayName: 'Build the project - Release'
       inputs:
         command: 'build'
-        arguments: '--no-restore --configuration $(buildConfiguration)'
+        arguments: '--no-restore --configuration  ${{ parameters.buildConfiguration }}'
         projects: '**/*.csproj'
     - task: DotNetCoreCLI@2
-      displayName: 'Run unit tests - $(buildConfiguration)'
+      displayName: 'Run unit tests -  ${{ parameters.buildConfiguration }}'
       inputs:
         command: 'test'
-        arguments: '--no-build --configuration $(buildConfiguration)'
+        arguments: '--no-build --configuration  ${{ parameters.buildConfiguration }}'
         publishTestResults: true
         projects: '**/*.UnitTests.csproj'
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'Install .NET tools from local manifest'
-    #   inputs:
-    #     command: custom
-    #     custom: tool
-    #     arguments: 'restore'
-    # - task: DotNetCoreCLI@2
-    #   inputs:
-    #     command: 'custom'
-    #     custom: 'tool'
-    #     arguments: 'install dotnet-reportgenerator-globaltool --global'
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'Run unit tests - $(buildConfiguration)'
-    #   inputs:
-    #     command: 'test'
-    #     arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    #     publishTestResults: true
-    #     projects: '**/*.UnitTests.csproj'
-
-    # - task: DotNetCoreCLI@2
-    #   displayName: 'Create code coverage report'
-    #   inputs:
-    #     command: custom
-    #     custom: tool
-    #     arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
-    #   condition: succeededOrFailed()
-    # - task: PublishCodeCoverageResults@1
-    #   displayName: 'Publish code coverage report'
-    #   inputs:
-    #     codeCoverageTool: 'cobertura'
-    #     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+   
     - task: DotNetCoreCLI@2
       displayName: 'Publish the project - Release'
       inputs:
         command: 'publish'
         projects: '**/TodoList.WebApi.csproj'
         publishWebProjects: false
-        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Release'
+        arguments: '--no-build --configuration  ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/Release'
         zipAfterPublish: true
 
     - task: PublishBuildArtifacts@1
@@ -126,7 +88,7 @@ stages:
               azureSubscription: 'Meetup-Azure-Microsoft-365-Community'
               appType: 'webAppLinux'
               appName: '$(WebAppName)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+              package: '$(Pipeline.Workspace)/drop/ ${{ parameters.buildConfiguration }}/*.zip'
           - task: PowerShell@2
             inputs:
               targetType: 'inline'

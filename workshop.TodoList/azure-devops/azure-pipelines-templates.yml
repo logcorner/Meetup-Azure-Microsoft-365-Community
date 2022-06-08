@@ -1,0 +1,59 @@
+trigger:
+- ci-cd-azure-pipeline
+  
+variables:
+  buildConfiguration: 'Release'
+stages:
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Release'
+- stage: 'Deploy'
+  displayName: 'Deploy the web application and the Database'
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: windows-latest
+    environment: dev
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'Meetup-Azure-Microsoft-365-Community'
+              appType: 'webAppLinux'
+              appName: '$(WebAppName)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: 'Get-ChildItem -Path $(Build.ArtifactStagingDirectory)  -Recurse -Force'
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'database'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: 'Get-ChildItem -Path $(System.ArtifactsDirectory)  -Recurse -Force'
+          - task: SqlAzureDacpacDeployment@1
+            name: DeploySqlDatabaseDacpac
+            displayName: Deploy DACPAC to database
+            inputs:
+              ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
+              authenticationType: 'server'
+              serverName: $(sqlServerFullyQualifiedDomainName)
+              databaseName: $(sqlDatabaseName)
+              sqlUsername: $(SqlServerAdministratorLogin)
+              sqlPassword: $(SqlServerAdministratorLoginPassword)
+              deployType: 'DacpacTask'
+              deploymentAction: 'Publish'
+              dacpacFile: '$(System.ArtifactsDirectory)/database/TodoList.Database.dacpac'
