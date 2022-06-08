@@ -43,4 +43,21 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
-  - bash: echo "Hello Windows"
+  - task: VSBuild@1
+      displayName: Build Sql Serer Database project
+      inputs:
+        solution: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/TodoList.Database.sqlproj'
+
+  - task: CopyFiles@2
+    displayName: Copy DACPAC File
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/workshop.TodoList/src/TodoList.Database/bin'
+      contents: '**/*.dacpac'
+      targetFolder: '$(Build.ArtifactStagingDirectory)/database'
+      flattenFolders: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish DACPAC as pipeline artifact
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)/database'
+      artifactName: 'database'
