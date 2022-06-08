@@ -1,4 +1,5 @@
-# File: templates/jobs.yml
+parameters:
+  buildConfiguration: 'Release'
 jobs:
 - job: 
   pool:
