@@ -14,7 +14,7 @@ parameters:
 - name: sqlServerAdministratorLoginPassword
 - name: environment
 stages:
-- stage: 'Deploy'
+- stage: 'Deploy_${{ parameters.environment }}'
   displayName: 'Deploy the web application and the Database'
   dependsOn: Build
   jobs:
