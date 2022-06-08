@@ -1,8 +1,9 @@
 trigger:
-- ci-cd-azure-pipeline
+- '*'
   
 variables:
   buildConfiguration: 'Release'
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 stages:
 # File: azure-pipelines.yml
 - stage: 'Build'
@@ -12,7 +13,7 @@ stages:
     parameters:
       buildConfiguration: 'Release'
 - stage: 'Dev'
-  displayName: 'Deploy the web application and SQL Serer Database'
+  displayName: 'Dev : Deploy the web application and SQL Serer Database'
   dependsOn: Build
   jobs:
   - template: templates/deploy.yml
@@ -26,7 +27,7 @@ stages:
       environment: dev
       variablesGroup: Dev
 - stage: 'Test'
-  displayName: 'Deploy the web application and SQL Serer Database'
+  displayName: 'Test : Deploy the web application and SQL Serer Database'
   dependsOn: Dev
   jobs:
   - template: templates/deploy.yml
@@ -39,6 +40,21 @@ stages:
       sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
       environment: test
       variablesGroup: Test
+- stage: 'Prod'
+  displayName: 'Prod : Deploy the web application and SQL Serer Database'
+  dependsOn: Test
+  condition: and(succeeded(), eq(variables.isMain, 'true'))
+  jobs:
+  - template: templates/deploy.yml
+    parameters:
+      buildConfiguration: 'Release'
+      webAppName: '$(WebAppName)'
+      sqlDatabaseName: $(SqlDatabaseName)
+      sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+      sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+      sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+      environment: staging
+      variablesGroup: Prod
   # - template: templates/jobs.yml  # Template reference
   # - template: templates/jobs.yml  # Template reference
 # - stage: 'Build'
