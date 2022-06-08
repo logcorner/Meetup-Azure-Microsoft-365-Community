@@ -11,12 +11,12 @@ stages:
   parameters:
     buildConfiguration: 'Release'
     webAppName: '$(WebAppName)'
-    sqlDatabaseName: $(sqlDatabaseName)
+    sqlDatabaseName: $(SqlDatabaseName)
     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
     sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
     environment: dev
-    variablesGroup: Release
+    variablesGroup: Dev
 - template: templates/deploy.yml
   parameters:
     buildConfiguration: 'Release'
