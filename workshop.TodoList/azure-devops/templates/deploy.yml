@@ -13,17 +13,18 @@ parameters:
 - name: sqlServerFullyQualifiedDomainName
 - name: sqlServerAdministratorLoginPassword
 - name: environment
+- name: variablesGroup
 stages:
 - stage: 'Deploy_${{ parameters.environment }}'
-  displayName: 'Deploy the web application and the Database'
+  displayName: 'Deploy the web application and the Database to << ${{ parameters.environment }} >> environment'
   dependsOn: Build
   jobs:
-  - deployment: Deploy
+  - deployment: Deploy_${{ parameters.environment }}'
     pool:
       vmImage: windows-latest
     environment: ${{ parameters.environment }}
     variables:
-    - group: Release
+    - group: ${{ parameters.variablesGroup }}
     strategy:
       runOnce:
         deploy:

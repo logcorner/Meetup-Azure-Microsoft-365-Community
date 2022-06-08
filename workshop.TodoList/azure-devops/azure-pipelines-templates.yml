@@ -13,15 +13,17 @@ stages:
     webAppName: '$(WebAppName)'
     sqlDatabaseName: $(sqlDatabaseName)
     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-    sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
+    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
     environment: dev
+    variablesGroup: Release
 - template: templates/deploy.yml
   parameters:
     buildConfiguration: 'Release'
     webAppName: '$(WebAppName)'
-    sqlDatabaseName: $(sqlDatabaseName)
+    sqlDatabaseName: $(SqlDatabaseName)
     sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
-    sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
+    sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
     sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
     environment: test
+    variablesGroup: Test
