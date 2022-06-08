@@ -7,9 +7,10 @@ stages:
 
 - stage: 'Build'
   displayName: 'Build the web application and SQL Serer Database'
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Release'
+  jobs: 
+  - template: templates/build.yml
+    parameters:
+      buildConfiguration: 'Release'
 # - template: templates/deploy.yml
 #   parameters:
 #     buildConfiguration: 'Release'
