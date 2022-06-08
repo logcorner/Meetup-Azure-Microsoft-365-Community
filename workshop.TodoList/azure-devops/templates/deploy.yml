@@ -5,6 +5,7 @@ parameters:
   sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
   sqlServerFullyQualifiedDomainName: $(sqlServerFullyQualifiedDomainName)
   sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+  environment: dev
 stages:
 - stage: 'Deploy'
   displayName: 'Deploy the web application and the Database'
@@ -13,7 +14,7 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: windows-latest
-    environment: dev
+    environment: ${{ parameters.environment }}
     variables:
     - group: Release
     strategy:
@@ -50,7 +51,7 @@ stages:
               ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
               authenticationType: 'server'
               serverName: ${{ parameters.sqlDatabaseName }}
-              databaseName: ${{ parameters.sqlDatabaseName }}
+              databaseName: ${{ parameters.sqlServerFullyQualifiedDomainName }}
               sqlUsername: ${{ parameters.sqlServerAdministratorLogin }}
               sqlPassword: ${{ parameters.sqlServerAdministratorLoginPassword }}
               deployType: 'DacpacTask'
