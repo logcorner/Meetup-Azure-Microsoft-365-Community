@@ -1,4 +1,4 @@
-# Meetup-Azure-Microsoft-365-Community
+# Automatisation de l'intégration et de la livraison continue (CI/CD) avec azure pipeline
 
 ![introducing-devops](https://user-images.githubusercontent.com/5066547/172651403-a574493e-00ee-4253-8adc-f862b2afee9b.png)
 
