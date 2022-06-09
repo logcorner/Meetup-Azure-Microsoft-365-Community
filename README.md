@@ -65,3 +65,6 @@ Avec des solutions de bout en bout dans Azure, les équipes peuvent implémenter
 5. Collaborer dans le cloud avec Azure Bots et Teams.
 6. Exécuter des opérations dans le cloud avec Azure Monitor, Azure Policy, Azure App insights et Azure Security Center.
 
+![azure devops 2](https://user-images.githubusercontent.com/5066547/172800268-3f3e1fff-2868-444e-b7a5-832cf5111751.png)
+
+
