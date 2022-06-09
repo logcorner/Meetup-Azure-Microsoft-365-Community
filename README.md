@@ -1,5 +1,7 @@
 # Automatisation de l'intégration et de la livraison continue (CI/CD) avec azure pipeline
+
 « DevOps est la conjugaison de personnes, de processus et de produits qui permettent de fournir en continu de la valeur à nos utilisateurs finaux ». 
+
 
 
 ![introducing-devops](https://user-images.githubusercontent.com/5066547/172651403-a574493e-00ee-4253-8adc-f862b2afee9b.png)
