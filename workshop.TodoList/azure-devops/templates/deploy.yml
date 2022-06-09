@@ -1,0 +1,56 @@
+parameters:
+- name: buildConfiguration
+- name: webAppName
+- name: sqlDatabaseName
+- name: sqlServerAdministratorLogin
+- name: sqlServerFullyQualifiedDomainName
+- name: sqlServerAdministratorLoginPassword
+- name: environment
+- name: variablesGroup
+jobs:
+- deployment: Deploy_${{ parameters.environment }}
+  pool:
+    vmImage: windows-latest
+  environment: ${{ parameters.environment }}
+  variables:
+  - group: ${{ parameters.variablesGroup }}
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: current
+          artifact: drop
+        - task: AzureWebApp@1
+          displayName: 'Azure App Service Deploy: website'
+          inputs:
+            azureSubscription: 'Meetup-Azure-Microsoft-365-Community'
+            appType: 'webAppLinux'
+            appName: '${{ parameters.webAppName }}'
+            package: '$(Pipeline.Workspace)/drop/${{ parameters.buildConfiguration }}/*.zip'
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'Get-ChildItem -Path $(Build.ArtifactStagingDirectory)  -Recurse -Force'
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'database'
+            downloadPath: '$(System.ArtifactsDirectory)'
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'Get-ChildItem -Path $(System.ArtifactsDirectory)  -Recurse -Force'
+        - task: SqlAzureDacpacDeployment@1
+          name: DeploySqlDatabaseDacpac
+          displayName: Deploy DACPAC to database
+          inputs:
+            ConnectedServiceNameARM: 'Meetup-Azure-Microsoft-365-Community'
+            authenticationType: 'server'
+            serverName: ${{ parameters.sqlServerFullyQualifiedDomainName }}
+            databaseName: ${{ parameters.sqlDatabaseName }}
+            sqlUsername: ${{ parameters.sqlServerAdministratorLogin }}
+            sqlPassword: ${{ parameters.sqlServerAdministratorLoginPassword }}
+            deployType: 'DacpacTask'
+            deploymentAction: 'Publish'
+            dacpacFile: '$(System.ArtifactsDirectory)/database/TodoList.Database.dacpac'

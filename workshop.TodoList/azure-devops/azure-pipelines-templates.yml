@@ -1,0 +1,58 @@
+trigger:
+- '*'
+  
+variables:
+  buildConfiguration: 'Release'
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+stages:
+
+- stage: 'Build'
+  displayName: 'Build the web application and SQL Serer Database'
+  jobs:
+  - template: templates/build.yml 
+    parameters:
+      buildConfiguration: 'Release'
+- stage: 'Dev'
+  displayName: 'Dev : Deploy the web application and SQL Serer Database'
+  dependsOn: Build
+  jobs:
+  - template: templates/deploy.yml
+    parameters:
+      buildConfiguration: 'Release'
+      webAppName: '$(WebAppName)'
+      sqlDatabaseName: $(SqlDatabaseName)
+      sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+      sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+      sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+      environment: dev
+      variablesGroup: Dev
+- stage: 'Test'
+  displayName: 'Test : Deploy the web application and SQL Serer Database'
+  dependsOn: Dev
+  jobs:
+  - template: templates/deploy.yml
+    parameters:
+      buildConfiguration: 'Release'
+      webAppName: '$(WebAppName)'
+      sqlDatabaseName: $(SqlDatabaseName)
+      sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+      sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+      sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+      environment: test
+      variablesGroup: Test
+- stage: 'Prod'
+  displayName: 'Prod : Deploy the web application and SQL Serer Database'
+  dependsOn: Test
+  condition: and(succeeded(), eq(variables.isMain, 'true'))
+  jobs:
+  - template: templates/deploy.yml
+    parameters:
+      buildConfiguration: 'Release'
+      webAppName: '$(WebAppName)'
+      sqlDatabaseName: $(SqlDatabaseName)
+      sqlServerAdministratorLogin: $(SqlServerAdministratorLogin)
+      sqlServerFullyQualifiedDomainName: $(SqlServerFullyQualifiedDomainName)
+      sqlServerAdministratorLoginPassword: $(SqlServerAdministratorLoginPassword)
+      environment: staging
+      variablesGroup: Prod
+  
